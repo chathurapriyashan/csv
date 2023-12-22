@@ -1,6 +1,6 @@
 {
   "name": "npm-csv",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "This is Front end CSV handler",
   "main": "CSVRead.js",
   "scripts": {

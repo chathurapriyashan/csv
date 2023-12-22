@@ -1,7 +1,11 @@
 export default class CVSObject{
     #dataArray = []
     #numberOfRows = 0;
-    dataSet = [];
+    #dataSet = [];
+    /**
+     * 
+     * @param {String} csvText  get csv Text as String
+     */
     constructor(csvText){
         this.csvText = new String(csvText);
         this.data  = {};
@@ -20,6 +24,13 @@ export default class CVSObject{
 
         this.#updateMainData(this.data);
     }
+
+    /**
+     * 
+     * @param {Array} filters 
+     * CSVtext data converted javascript object and filter  by it given filter names array 
+     * @returns  csvDataObject
+     */
 
     getData(filters){
         let filterObject = this.data;
@@ -40,6 +51,11 @@ export default class CVSObject{
         return [classes , encodedArray];
     }
 
+    /**
+     * 
+     * @returns Encoded csvDataObject use array index
+     */
+
     encodeIndexing(){
         this.encode = {};
         this.encodeClasses = {}
@@ -58,12 +74,19 @@ export default class CVSObject{
         return this.encode;
     }
 
+    /**
+     * 
+     * @param {Array} filters get column name as filtering array 
+     * @returns if you not provide filters it return full dataset
+     * @returns filtered CsvDataMatrix
+     */
+
     getDataSet(filters){
-        let dataset = this.dataSet;
+        let dataset = this.#dataSet;
         if(filters && filters.length != 0 ){
             dataset = [];
-            const indexes  = filters.map(name=> this.dataSet[0].indexOf(name));
-            this.dataSet.slice(1).forEach(dataArray=>{
+            const indexes  = filters.map(name=> this.#dataSet[0].indexOf(name));
+            this.#dataSet.slice(1).forEach(dataArray=>{
                 const temporyArray = indexes.map(index=> dataArray[index])
                 dataset.push(temporyArray);
             })
@@ -75,7 +98,7 @@ export default class CVSObject{
 
 
     #updateMainData(updatedObject){
-        this.dataSet = [];
+        this.#dataSet = [];
         const headers= [];
         for ( const [key , values] of Object.entries(updatedObject)){
             headers.push(key);
@@ -85,9 +108,9 @@ export default class CVSObject{
             for ( const [key , values] of Object.entries(updatedObject)){
                 temporyArray.push(values[row]);
             }
-            this.dataSet.push(temporyArray);
+            this.#dataSet.push(temporyArray);
         }
-        this.dataSet.unshift(headers);
+        this.#dataSet.unshift(headers);
 
     }
 }
